@@ -1,0 +1,19 @@
+# OS X Files
+*.DS_Store
+*Thumbs.db
+
+# Byte-compiled Python
+*__pycache__
+
+# Jupyter Notebook
+*.ipynb_checkpoints
+
+# Python venv
+.venv
+
+# Coverage
+.cov
+.coverage*
+
+# Testing
+.pytest_cache

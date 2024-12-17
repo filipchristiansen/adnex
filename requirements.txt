@@ -1,0 +1,7 @@
+black
+numpy
+pandas
+pre-commit
+pytest
+pytest-cov
+python-gdcm
