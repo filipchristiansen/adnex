@@ -38,7 +38,7 @@ def test_adnex_model_output_sum(sample_input):
     )
 
     assert pytest.approx(probabilities.sum()) == 1.0 + probabilities['Malignant']
-    assert pytest.approx(probabilities['Benign']) == 1.0 - 2 * probabilities['Malignant']
+    assert pytest.approx(probabilities['Benign']) == 1.0 - probabilities['Malignant']
 
 
 def test_adnex_model_with_null_ca_125(sample_input):

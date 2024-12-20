@@ -21,7 +21,7 @@ def adnex_model(row: pd.Series) -> pd.Series:
     pd.Series
         A pandas Series with probabilities for each outcome category:
         ['Benign', 'Borderline', 'Stage I cancer', 'Stage II-IV cancer', 'Metastatic cancer', 'Malignant'].
-        The 'Malignant' category is the sum of the last four categories.
+        The 'Malignant' category is the sum of the last four categories (Borderline, Stage I, Stage II-IV, Metastatic).
     """
     with_ca125 = has_ca125(row)
 

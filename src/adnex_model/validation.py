@@ -2,6 +2,7 @@
 
 from collections.abc import Iterable
 
+import numpy as np
 import pandas as pd
 
 MIN_AGE = 10
@@ -122,7 +123,7 @@ def _validate_adnex_model_input(row: pd.Series) -> None:
         raise ValueError(f'The following variables are missing (NaN): {missing_vars}')
 
     def _check_numeric(name: str) -> None:
-        if not isinstance(row[name], (int, float)):
+        if not isinstance(row[name], (int, float, np.number)):
             raise ValueError(f"'{name}' must be numeric, got {type(row[name])}.")
 
     def _check_range(name: str, low: float, high: float, unit: str = '', extra_note: str = '') -> None:
@@ -160,7 +161,7 @@ def _validate_adnex_model_input(row: pd.Series) -> None:
 
     # Validate number of papillary projections
     if not (
-        isinstance(row['number_of_papillary_projections'], int)
+        isinstance(row['number_of_papillary_projections'], (int, np.number))
         and row['number_of_papillary_projections'] in {0, 1, 2, 3, 4}
     ):
         raise ValueError(
