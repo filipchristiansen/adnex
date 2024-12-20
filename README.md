@@ -1,5 +1,9 @@
 # Assessment of Different NEoplasias in the adneXa(ADNEX) model
 
+<a href="https://github.com/psf/black/actions"><img alt="Actions Status" src="https://github.com/psf/black/workflows/Test/badge.svg"></a>
+<a href="https://coveralls.io/github/psf/black?branch=main"><img alt="Coverage Status" src="https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_100.svg"></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+
 ## Description
 
 This is an unofficial python implementation of the **Assessment of Different NEoplasias in the adneXa (ADNEX)** model developed by the **International Ovarian Tumor Analysis (IOTA) group**. The model is used to predict the risk of malignancy in adnexal masses based on ultrasound findings and clinical data. The model is based on logistic regression and uses the following predictors (units in parentheses):
@@ -9,7 +13,7 @@ This is an unofficial python implementation of the **Assessment of Different NEo
 - [C] **maximal lesion diameter** (mm)
 - [D] **maximal diameter of largest solid component** (mm)
 - [E] **more than 10 cyst locules** (1 for yes, 0 for no)
-- [F] **number of papillary projections** (0, 1, 2, 3, or 4, where 4 indicates >3)
+- [F] **number of papillary projections** (0, 1, 2, 3, or 4, where 4 indicates > 3)
 - [G] **acoustic shadows** (1 for yes, 0 for no)
 - [H] **ascites** (1 for yes, 0 for no)
 - [I] **type of centre** (1 for oncology centre, 0 for other)
