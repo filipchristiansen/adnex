@@ -14,7 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.13", "3.12", "3.11", "3.10", "3.9", "3.8"]
+        python-version: ["3.13", "3.12", "3.11", "3.10", "3.9"]
         install-via: [pip]
     steps:
       - uses: actions/checkout@v3
@@ -37,7 +37,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-          pip install pytest pre-commit pylint
+          pip install pytest pytest-cov pre-commit pylint
 
       - name: Run pre-commit hooks
         run: |
