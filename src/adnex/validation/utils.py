@@ -1,5 +1,7 @@
 """ Helper functions for validation of input values. """
 
+from typing import Union
+
 import numpy as np
 import pandas as pd
 
@@ -28,7 +30,7 @@ def _is_numeric(value: object) -> bool:
     return isinstance(value, (int, float, np.number))
 
 
-def _is_non_negative(value: int | float | np.number) -> bool:
+def _is_non_negative(value: Union[int, float, np.number]) -> bool:
     return bool(value >= 0)
 
 
