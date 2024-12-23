@@ -3,13 +3,6 @@
 
 """
 This module defines the ADNEX model variables and constants.
-
-- ADNEX_MODEL_VARIABLES is a dictionary mapping the model's short variable names (A-I) to the expected column names
-  in the input data.
-- ADNEX_MODEL_CONSTANTS_WITH_CA125 and ADNEX_MODEL_CONSTANTS_WITHOUT_CA125 store the model coefficients derived from
-  the literature.
-- get_adnex_model_constants is a helper function that returns the appropriate constants depending on whether CA-125 is
-  included.
 """
 
 import pandas as pd
@@ -25,6 +18,9 @@ ADNEX_MODEL_VARIABLES = {
     'H': 'ascites_present',
     'I': 'is_oncology_center',
 }
+
+REQUIRED_VARIABLES = set(ADNEX_MODEL_VARIABLES.values()) - {'s_ca_125'}
+
 
 ADNEX_MODEL_CONSTANTS_WITH_CA125 = pd.DataFrame(
     {
@@ -45,6 +41,9 @@ ADNEX_MODEL_CONSTANTS_WITHOUT_CA125 = pd.DataFrame(
     },
     index=['constant', 'A', 'Log2(C)', 'D/C', 'D/C^2', 'E', 'F', 'G', 'H', 'I']
 )
+
+ADNEX_MODEL_OUTPUT_CATEGORIES = ['Benign', 'Borderline', 'Stage I cancer', 'Stage II-IV cancer', 'Metastatic cancer']
+
 
 def get_adnex_model_constants(with_ca125: bool) -> pd.DataFrame:
     """

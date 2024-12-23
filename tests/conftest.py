@@ -6,6 +6,14 @@ import pytest
 
 @pytest.fixture
 def sample_input():
+    """
+    Fixture to provide a valid sample input.
+
+    Returns
+    -------
+    pd.Series
+        A pandas Series with the necessary predictors for the ADNEX model.
+    """
     return pd.Series(
         {
             'age': 46,
@@ -23,14 +31,23 @@ def sample_input():
 
 @pytest.fixture
 def expected_output():
-    # Expected output based on https://www.evidencio.com/models/show/946
+    """
+    Fixture to provide the expected output for a valid sample input.
+
+    Expected output based on https://www.evidencio.com/models/show/946
+
+    Returns
+    -------
+    pd.Series
+        A pandas Series with the expected probabilities for each outcome category.
+    """
     return pd.Series(
         {
             'Benign': 0.613,
             'Borderline': 0.082,
-            'Malignant': 0.387,
             'Stage I cancer': 0.112,
             'Stage II-IV cancer': 0.168,
             'Metastatic cancer': 0.025,
+            'Malignant': 0.387,
         }
     )

@@ -88,7 +88,9 @@ repos:
     rev: v1.8.1
     hooks:
       - id: darglint
+        name: darglint for source
         args: [--docstring-style=numpy]
+        files: ^src/
 
   - repo: https://github.com/pycqa/pylint
     rev: v3.3.2
@@ -96,7 +98,6 @@ repos:
       - id: pylint
         name: pylint for source
         files: ^src/
-        exclude: ^src/tests/
         additional_dependencies:
           [
             numpy,
@@ -104,9 +105,9 @@ repos:
           ]
       - id: pylint
         name: pylint for tests
-        files: ^src/tests/
+        files: ^tests/
         args:
-          - --rcfile=src/tests/.pylintrc
+          - --rcfile=tests/.pylintrc
         additional_dependencies:
           [
             numpy,

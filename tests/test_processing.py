@@ -4,7 +4,9 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from adnex_model.processing import compute_probabilities, transform_input_variables
+from adnex.computation import compute_probabilities
+from adnex.transformation import transform_input_variables
+from adnex.variables import ADNEX_MODEL_OUTPUT_CATEGORIES
 
 
 def test_transform_input_variables_with_ca125():
@@ -72,5 +74,5 @@ def test_compute_probabilities():
     probabilities = compute_probabilities(transformed_vars, with_ca125=True)
     assert isinstance(probabilities, pd.Series)
     assert pytest.approx(probabilities.sum() - probabilities['Malignant']) == 1.0
-    for category in ['Benign', 'Borderline', 'Stage I cancer', 'Stage II-IV cancer', 'Metastatic cancer', 'Malignant']:
+    for category in ADNEX_MODEL_OUTPUT_CATEGORIES + ['Malignant']:
         assert category in probabilities.index
