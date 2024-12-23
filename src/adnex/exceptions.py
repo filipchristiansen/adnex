@@ -1,5 +1,7 @@
 """ Custom exceptions for the ADNEX model. """
 
+from typing import Set
+
 
 class ADNEXModelError(Exception):
     """Base exception for ADNEX model errors."""
@@ -12,7 +14,7 @@ class ValidationError(ADNEXModelError):
 class MissingColumnsError(ADNEXModelError):
     """Exception raised when required columns are missing."""
 
-    def __init__(self, missing_columns: set[str]) -> None:
+    def __init__(self, missing_columns: Set[str]) -> None:
         message_template = 'The input row is missing required columns: {}.'
         # Sort the missing columns for consistent orderin
         if len(missing_columns) > 1:

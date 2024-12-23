@@ -19,7 +19,7 @@
 
 ## Dependencies
 
-- Python 3.7+
+- Python 3.6+
 - pandas
 - numpy
 

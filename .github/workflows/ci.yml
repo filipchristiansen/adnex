@@ -6,7 +6,6 @@ on:
   pull_request:
     branches: [ main ]
 
-
 jobs:
   build:
     runs-on: ${{ matrix.os }}
@@ -14,11 +13,10 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        python-version: ["3.13", "3.12", "3.11", "3.10", "3.9"]
+        python-version: ['3.13', '3.12', '3.11', '3.10', '3.9', '3.8', '3.7', '3.6']
         install-via: [pip]
     steps:
       - uses: actions/checkout@v3
-
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -40,6 +38,7 @@ jobs:
           pip install pytest pytest-cov pre-commit pylint
 
       - name: Run pre-commit hooks
+        if: ${{ matrix.python-version != '3.8' }}
         run: |
           pre-commit run --all-files
 
