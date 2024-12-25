@@ -18,7 +18,7 @@ repos:
         description: 'Check for files that contain merge conflict strings.'
         args: [--assume-in-merge]
       - id: no-commit-to-branch
-        description: 'Check that no commits are made to the main/master branch.'
+        description: 'Check that no commits are made to the main branch.'
 
       # Links
       - id: destroyed-symlinks
