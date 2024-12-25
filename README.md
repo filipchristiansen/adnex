@@ -67,7 +67,7 @@ The package provides two functions:
 
 1. `predict_risks`: A function that takes a pandas Series containing the ADNEX variables as input and returns a pandas Series with the predicted probabilities of the different types of neoplasias (Benign, Borderline, Stage I, Stage II-IV, Metastatic).
 
-2. `predict_risk_of_cancer`: A function that takes a pandas Series containing the ADNEX variables as input and returns the predicted risk of malignancy (Borderline + Stage I + Stage II-IV + Metastatic).
+2. `predict_cancer_risk`: A function that takes a pandas Series containing the ADNEX variables as input and returns the predicted risk of malignancy (Borderline + Stage I + Stage II-IV + Metastatic).
 
 Here is an example of how to use the `predict_risks` function:
 
@@ -106,7 +106,7 @@ Metastatic cancer     0.025466
 dtype: float64
 ```
 
-Here is an example of how to use the `predict_risk_of_cancer` function:
+Here is an example of how to use the `predict_cancer_risk` function:
 
 ```python
 import pandas as pd
@@ -114,7 +114,8 @@ import adnex
 
 data = ... # Create a pandas Series with the ADNEX variables (see above)
 
-risk = adnex.predict_risk_of_cancer(data)
+# Get the predicted risk of cancer
+risk = adnex.predict_cancer_risk(data)
 
 print(risk)
 ```
@@ -123,6 +124,50 @@ Output:
 
 ```bash
 0.387119
+```
+
+Here is an example of how to use the `predict_cancer_risk` function for multiple observations:
+
+```python
+import numpy as np
+import pandas as pd
+import adnex
+
+# Create the DataFrame with the ADNEX variables for multiple observations
+data = pd.DataFrame(
+    {
+      'age': [46, 52, 38, 29, 60, 45, 50, 33, 61, 40],
+      's_ca_125': [68, np.nan, 120, np.nan, 85, 90, 55, np.nan, 100, 75],
+      'max_lesion_diameter': [88, 45, 70, 100, 55, 60, 72, 80, 65, 50],
+      'max_solid_component': [50, 25, 35, 60, 30, 40, 25, 50, 35, 20],
+      'more_than_10_locules': [0, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      'number_of_papillary_projections': [2, 4, 1, 3, 0, 1, 2, 3, 4, 0],
+      'acoustic_shadows_present': [1, 0, 1, 0, 1, 1, 0, 1, 0, 1],
+      'ascites_present': [1, 1, 0, 1, 0, 1, 0, 1, 0, 1],
+      'is_oncology_center': [0, 1, 0, 1, 0, 1, 0, 1, 0, 1]
+  }
+)
+
+# Get the predicted risk of cancer for each observation
+data['predicted_risk'] = data.apply(calculate_risk, axis=1)
+
+print(data['predicted_risk'])
+```
+
+Output:
+
+```bash
+0    0.387119
+1    0.986933
+2    0.102789
+3    0.983853
+4    0.102129
+5    0.637533
+6    0.412924
+7    0.831998
+8    0.874002
+9    0.289273
+Name: predicted_risk, dtype: float64
 ```
 
 ## References
