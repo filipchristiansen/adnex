@@ -1,5 +1,7 @@
 -r requirements.txt
 black
+build
 pre-commit
 pytest
 pytest-cov
+twine

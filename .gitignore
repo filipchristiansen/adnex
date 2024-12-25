@@ -18,10 +18,10 @@
 # Testing
 .pytest_cache
 
-# Sphinx documentation build directory
-docs/build/
+# Distribution directories
+dist/
 
-# Other build artifacts
-/build/
+# Build artifacts
+build/
 dist/
 *.egg-info/

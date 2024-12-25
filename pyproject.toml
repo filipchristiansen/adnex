@@ -61,10 +61,10 @@ skip-string-normalization = true
 
 [project.optional-dependencies]
 dev = [
+    "black",
+    "build",
+    "pre-commit",
     "pytest",
     "pytest-cov",
-    "pylint",
-    "black",
-    "isort",
-    "pycln"
+    "twine",
 ]

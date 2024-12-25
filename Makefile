@@ -1,6 +1,6 @@
 PYTHON_VERSION = 3.10.15
 
-.PHONY: help install_pyenv venv tests clean hooks
+.PHONY: help install_pyenv venv tests clean hooks build publish
 
 help:
 	@echo "Available Makefile targets:"
@@ -35,8 +35,16 @@ tests:
 clean:
 	find . \( -name '.DS_Store' -o -name 'Thumbs.db' \) -type f -delete
 	find . -name '__pycache__' -type d -exec rm -rf {} +
-	rm -rf .pytest_cache .cov .coverage src/adnex.egg-info
+	rm -rf .pytest_cache .cov .coverage src/adnex.egg-info dist/ build/
 
 # Run pre-commit hooks:
 hooks:
 	. .venv/bin/activate && pre-commit run --all-files
+
+# Build the package
+build:
+	python -m build
+
+# Publish to PyPI
+publish: build
+	python -m twine upload dist/*
