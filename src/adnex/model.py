@@ -10,7 +10,7 @@ from adnex.validation.utils import has_ca125
 from adnex.variables import ADNEX_MODEL_VARIABLES
 
 
-def adnex(row: pd.Series) -> pd.Series:
+def predict_risks(row: pd.Series) -> pd.Series:
     """
     Apply the ADNEX model to a single patient data row.
 
@@ -32,8 +32,7 @@ def adnex(row: pd.Series) -> pd.Series:
     -------
     pd.Series
         A pandas Series with probabilities for each outcome category:
-        ['Benign', 'Borderline', 'Stage I cancer', 'Stage II-IV cancer', 'Metastatic cancer', 'Malignant'].
-        The 'Malignant' category is the sum of the last four categories (Borderline, Stage I, Stage II-IV, Metastatic).
+        ['Benign', 'Borderline', 'Stage I cancer', 'Stage II-IV cancer', 'Metastatic cancer'].
     """
     try:
         with_ca125 = has_ca125(row)
@@ -62,3 +61,26 @@ def adnex(row: pd.Series) -> pd.Series:
 
     except Exception as e:
         raise ADNEXModelError('An unexpected error occurred while processing the ADNEX model.') from e
+
+
+def predict_cancer_risk(row: pd.Series) -> float:
+    """
+    Apply the ADNEX model to a single patient data row and return the risk of cancer.
+
+    The risk of cancer is defined as the sum of the probabilities of the non-benign categories:
+    'Borderline', 'Stage I cancer', 'Stage II-IV cancer', 'Metastatic cancer'.
+
+
+    Parameters
+    ----------
+    row : pd.Series
+        A pandas Series containing the necessary predictors with the expected column names.
+
+    Returns
+    -------
+    float
+        The risk of cancer as a float value between 0 and 1.
+    """
+    probabilities = predict_risks(row)
+
+    return probabilities.sum() - probabilities['Benign']

@@ -2,8 +2,11 @@
 *.DS_Store
 *Thumbs.db
 
+# Pyenv
+.python-version
+
 # Byte-compiled Python
-*__pycache__
+*__pycache__/
 
 # Python venv
 .venv
@@ -14,3 +17,11 @@
 
 # Testing
 .pytest_cache
+
+# Sphinx documentation build directory
+docs/build/
+
+# Other build artifacts
+/build/
+dist/
+*.egg-info/

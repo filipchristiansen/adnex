@@ -1,6 +1,6 @@
 PYTHON_VERSION = 3.10.15
 
-.PHONY: help, install_pyenv venv tests clean hooks
+.PHONY: help install_pyenv venv tests clean hooks
 
 help:
 	@echo "Available Makefile targets:"
@@ -9,7 +9,6 @@ help:
 	@echo "  tests             Run tests with pytest"
 	@echo "  clean             Clean up project directories"
 	@echo "  hooks             Run pre-commit hooks"
-
 
 # Install pyenv, install python version `PYTHON_VERSION`, and set it as local version:
 install_pyenv:
@@ -36,7 +35,7 @@ tests:
 clean:
 	find . \( -name '.DS_Store' -o -name 'Thumbs.db' \) -type f -delete
 	find . -name '__pycache__' -type d -exec rm -rf {} +
-	rm -rf .pytest_cache .cov .coverage
+	rm -rf .pytest_cache .cov .coverage src/adnex.egg-info
 
 # Run pre-commit hooks:
 hooks:

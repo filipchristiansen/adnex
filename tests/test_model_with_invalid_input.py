@@ -2,8 +2,8 @@
 
 import pytest
 
+import adnex
 from adnex.exceptions import MissingColumnsError, ValidationError
-from adnex.model import adnex
 from adnex.validation.variables import MAX_AGE, MAX_CA_125, MIN_AGE
 
 
@@ -13,7 +13,7 @@ def test_adnex_model_missing_required_columns(sample_input):
     input_data = sample_input.drop(labels=['age', 'max_lesion_diameter'])
 
     with pytest.raises(MissingColumnsError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert 'missing required columns' in str(excinfo.value), 'MissingColumnsError not raised for missing columns.'
 
@@ -27,7 +27,7 @@ def test_adnex_model_invalid_age_type(sample_input):
     input_data[var_name] = age.astype(str)
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f"Invalid type for '{var_name}': expected integer, got str_." in str(
         excinfo.value
@@ -42,7 +42,7 @@ def test_adnex_model_age_out_of_range(sample_input):
     input_data[var_name] = value
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f'{var_name}={value} is out of range. Must be between {MIN_AGE} and {MAX_AGE}.' in str(
         excinfo.value
@@ -57,7 +57,7 @@ def test_adnex_model_invalid_ca_125_type(sample_input):
     input_data[var_name] = 'sixty-eight'  # Invalid type
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f"Invalid type for '{var_name}': expected integer, got str." in str(
         excinfo.value
@@ -72,7 +72,7 @@ def test_adnex_model_ca_125_out_of_range(sample_input):
     input_data[var_name] = value  # Invalid CA-125
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f'{var_name}={value} is out of range. Must not exceed {MAX_CA_125}.' in str(
         excinfo.value
@@ -87,7 +87,7 @@ def test_adnex_model_ca_125_negative(sample_input):
     input_data[var_name] = value  # Invalid negative CA-125
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f'{var_name}={value} cannot be negative.' in str(
         excinfo.value
@@ -102,7 +102,7 @@ def test_adnex_model_invalid_papillary_projections(sample_input):
     input_data[var_name] = value  # Invalid value (should be 0-4)
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f'{var_name}={value} is invalid. Must be 0, 1, 2, 3, or 4 (4 means > 3).' in str(
         excinfo.value
@@ -117,7 +117,7 @@ def test_adnex_model_invalid_binary_variable(sample_input):
     input_data[var_name] = value  # Invalid binary value
 
     with pytest.raises(ValidationError) as excinfo:
-        adnex(input_data)
+        adnex.predict_risks(input_data)
 
     assert f"Invalid value for '{var_name}': expected 0 or 1, got {value}." in str(
         excinfo.value

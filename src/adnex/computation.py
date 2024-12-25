@@ -20,7 +20,7 @@ def compute_probabilities(transformed_vars: pd.Series, with_ca125: bool) -> pd.S
     Returns
     -------
     pd.Series
-        Probabilities for each outcome class and a combined 'Malignant' category.
+        Probabilities for each outcome class.
     """
     # Retrieve model constants
     constants = get_adnex_model_constants(with_ca125)
@@ -41,6 +41,5 @@ def compute_probabilities(transformed_vars: pd.Series, with_ca125: bool) -> pd.S
     probabilities = exp_z_values / exp_z_values.sum()
 
     probabilities_series = pd.Series(probabilities, index=ADNEX_MODEL_OUTPUT_CATEGORIES)
-    probabilities_series['Malignant'] = probabilities_series.sum() - probabilities_series['Benign']
 
     return probabilities_series

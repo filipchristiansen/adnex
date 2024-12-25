@@ -73,6 +73,6 @@ def test_compute_probabilities():
 
     probabilities = compute_probabilities(transformed_vars, with_ca125=True)
     assert isinstance(probabilities, pd.Series)
-    assert pytest.approx(probabilities.sum() - probabilities['Malignant']) == 1.0
-    for category in ADNEX_MODEL_OUTPUT_CATEGORIES + ['Malignant']:
+    assert pytest.approx(probabilities.sum()) == 1.0
+    for category in ADNEX_MODEL_OUTPUT_CATEGORIES:
         assert category in probabilities.index

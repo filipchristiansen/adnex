@@ -4,8 +4,8 @@ from unittest.mock import patch
 
 import pytest
 
+import adnex
 from adnex.exceptions import ADNEXModelError
-from adnex.model import adnex
 
 
 def test_adnex_model_with_nan_ca125(sample_input):
@@ -13,13 +13,13 @@ def test_adnex_model_with_nan_ca125(sample_input):
     valid_input = sample_input.copy()
     valid_input = valid_input.drop('s_ca_125')
     valid_input['s_ca_125'] = None
-    adnex(valid_input)
+    adnex.predict_risks(valid_input)
 
 
 def test_adnex_model_output(sample_input, expected_output):
     """Test that adnex returns expected probabilities for valid input."""
 
-    calculated_output = adnex(sample_input)
+    calculated_output = adnex.predict_risks(sample_input)
 
     for key in expected_output.index:
         expected_value = expected_output[key]
@@ -32,10 +32,9 @@ def test_adnex_model_output(sample_input, expected_output):
 
 def test_adnex_model_output_keys(sample_input):
     """Test that adnex returns all required probability keys."""
-    probabilities = adnex(sample_input)
+    probabilities = adnex.predict_risks(sample_input)
     required_keys = [
         'Benign',
-        'Malignant',
         'Borderline',
         'Stage I cancer',
         'Stage II-IV cancer',
@@ -44,26 +43,21 @@ def test_adnex_model_output_keys(sample_input):
     for key in required_keys:
         assert key in probabilities.index, f"Missing key '{key}' in output probabilities."
 
+    assert 'Malignant' not in probabilities.index, "Output probabilities should not contain 'Malignant'."
+
 
 def test_adnex_model_output_sum(sample_input):
     """Test that the probabilities sum correctly."""
-    probabilities = adnex(sample_input)
+    probabilities = adnex.predict_risks(sample_input)
+    risk_of_cancer = adnex.predict_cancer_risk(sample_input)
 
     # Malignant should be the sum of its subcategories
-    assert probabilities['Malignant'] == pytest.approx(
+    assert risk_of_cancer == pytest.approx(
         probabilities['Borderline']
         + probabilities['Stage I cancer']
         + probabilities['Stage II-IV cancer']
         + probabilities['Metastatic cancer']
     ), 'Malignant probability does not match the sum of its subcategories.'
-
-    # Total sum should be 1 + Malignant
-    assert probabilities.sum() == pytest.approx(1.0 + probabilities['Malignant']), ()
-
-    # Benign + Malignant should be 1
-    assert probabilities['Benign'] + probabilities['Malignant'] == pytest.approx(
-        1.0
-    ), 'Sum of Benign and Malignant probabilities does not equal 1.'
 
 
 def test_adnex_unexpected_error(sample_input):
@@ -73,4 +67,4 @@ def test_adnex_unexpected_error(sample_input):
 
         # Check that the model raises an ADNEXModelError
         with pytest.raises(ADNEXModelError, match='An unexpected error occurred while processing the ADNEX model.'):
-            adnex(sample_input)
+            adnex.predict_risks(sample_input)

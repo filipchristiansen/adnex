@@ -48,6 +48,5 @@ def expected_output():
             'Stage I cancer': 0.112,
             'Stage II-IV cancer': 0.168,
             'Metastatic cancer': 0.025,
-            'Malignant': 0.387,
         }
     )

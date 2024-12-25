@@ -91,7 +91,7 @@ repos:
         files: ^src/
 
   - repo: https://github.com/pycqa/pylint
-    rev: v3.3.2
+    rev: v3.3.3
     hooks:
       - id: pylint
         name: pylint for source

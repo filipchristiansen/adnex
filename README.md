@@ -19,13 +19,17 @@
 
 ## Dependencies
 
-- Python 3.6+
+- Python 3.8+
 - pandas
 - numpy
 
 ## Description
 
-This is an unofficial python implementation of the **Assessment of Different NEoplasias in the adneXa (ADNEX)** model developed by the **International Ovarian Tumor Analysis (IOTA) group**. The model is used to predict the risk of malignancy in adnexal masses based on ultrasound findings and clinical data. The model is based on logistic regression and uses the following variables (units in parentheses):
+This is an unofficial Python implementation of the **Assessment of Different NEoplasias in the adneXa (ADNEX)** model developed by the **International Ovarian Tumor Analysis (IOTA) group** for the preoperative assessment of adnexal masses ([Van Calster et al. (2014)](https://doi.org/10.1136/bmj.g5920)).
+
+The model is used to predict the risk of malignancy, as well as to differentiate between benign, borderline, early and advanced stage invasive, and secondary metastatic tumours.
+
+The model is based on logistic regression and uses the following ultrasound and clinical variables:
 
 - [A] **age** (years)
 - [B] **serum CA-125** (U/ml)
@@ -37,7 +41,9 @@ This is an unofficial python implementation of the **Assessment of Different NEo
 - [H] **ascites** (1 for yes, 0 for no)
 - [I] **type of centre** (1 for oncology centre, 0 for other)
 
-The ADNEX model is available in two versions, with and without CA-125. If CA-125 is available and greater than 0 U/ml, the model uses the version with CA-125. Otherwise, it uses the version without CA-125.
+The model is available in two versions, with and without CA-125. If CA-125 is available and not 'NaN', the model uses the version with CA-125. Otherwise, it uses the version without CA-125.
+
+The model provides the predicted probabilities of the different types of neoplasias (Benign, Borderline, Stage I, Stage II-IV, Metastatic) and the predicted risk of malignancy (Borderline + Stage I + Stage II-IV + Metastatic).
 
 ## Installation
 
@@ -47,13 +53,27 @@ You can install the package using `pip`:
 pip install adnex
 ```
 
+Alternatively, install it from the source:
+
+```bash
+git clone https://github.com/filipchristiansen/adnex.git
+cd adnex
+pip install -e .
+```
+
 ## Usage
 
-The package provides a single function `adnex` that takes a pandas Series containing the ADNEX variables as input and returns a pandas Series with the predicted probabilities of the different types of neoplasias (Benign, Borderline, Stage I, Stage II-IV, Metastatic) and the predicted risk of malignancy (Borderline + Stage I + Stage II-IV + Metastatic).
+The package provides two functions:
+
+1. `predict_risks`: A function that takes a pandas Series containing the ADNEX variables as input and returns a pandas Series with the predicted probabilities of the different types of neoplasias (Benign, Borderline, Stage I, Stage II-IV, Metastatic).
+
+2. `predict_risk_of_cancer`: A function that takes a pandas Series containing the ADNEX variables as input and returns the predicted risk of malignancy (Borderline + Stage I + Stage II-IV + Metastatic).
+
+Here is an example of how to use the `predict_risks` function:
 
 ```python
 import pandas as pd
-from adnex.model import adnex
+import adnex
 
 # Create a pandas Series with the ADNEX variables
 data = pd.Series(
@@ -71,7 +91,7 @@ data = pd.Series(
     )
 
 # Get the predicted probabilities
-probs = adnex(data)
+probs = adnex.predict_risks(data)
 print(probs)
 ```
 
@@ -83,8 +103,26 @@ Borderline            0.081589
 Stage I cancer        0.111828
 Stage II-IV cancer    0.168236
 Metastatic cancer     0.025466
-Malignant             0.387119
 dtype: float64
+```
+
+Here is an example of how to use the `predict_risk_of_cancer` function:
+
+```python
+import pandas as pd
+import adnex
+
+data = ... # Create a pandas Series with the ADNEX variables (see above)
+
+risk = adnex.predict_risk_of_cancer(data)
+
+print(risk)
+```
+
+Output:
+
+```bash
+0.387119
 ```
 
 ## References
