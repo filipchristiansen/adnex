@@ -140,4 +140,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Contact
 
-For questions or support, please contact the author at [filip.christiansen.2@ki.se](mailto:filip.christiansen.2@ki.se).
+For questions or support, please contact the author at [filip.christiansen.2@ki.se](mailto:filip.christiansen.2@ki.se) with the subject line "GitHub adnex: [Your Subject]".
