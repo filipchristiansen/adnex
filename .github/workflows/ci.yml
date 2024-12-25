@@ -37,12 +37,14 @@ jobs:
           pip install pytest pytest-cov pre-commit pylint
 
       - name: Run pre-commit hooks
-        if: ${{ matrix.python-version != '3.8' }}
+      # Run pre-commit only for one Python version and one OS to avoid running it multiple times
+        if: ${{ matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest' }}
         run: |
-          pre-commit run --all-files
+          SKIP=no-commit-to-branch pre-commit run --all-files
 
       - name: Run pylint
-        if: ${{ matrix.python-version != '3.8' }}
+      # Run pre-commit only for one Python version and one OS to avoid running it multiple times
+        if: ${{ matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest' }}
         run: |
           pylint src/
 
