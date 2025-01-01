@@ -2,7 +2,6 @@
 
 import pytest
 
-from adnex.exceptions import ValidationError
 from adnex.validation.variables import (
     MAX_AGE,
     MAXIMAL_LESION_DIAMETER,
@@ -13,6 +12,7 @@ from adnex.validation.variables import (
     _validate_number_of_papillary_projections,
     _validate_s_ca_125,
 )
+from utils.exceptions import ValidationError
 
 
 def test_validate_age_valid_integer():

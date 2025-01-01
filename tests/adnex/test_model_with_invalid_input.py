@@ -3,19 +3,19 @@
 import pytest
 
 import adnex
-from adnex.exceptions import MissingColumnsError, ValidationError
 from adnex.validation.variables import MAX_AGE, MAX_CA_125, MIN_AGE
+from utils.exceptions import MissingVariableError, ValidationError
 
 
-def test_adnex_model_missing_required_columns(sample_input):
-    """Test that MissingColumnsError is raised when required columns are missing."""
+def test_adnex_model_missing_required_variables(sample_input):
+    """Test that MissingVariableError is raised when required variables are missing."""
     # Remove multiple required columns
     input_data = sample_input.drop(labels=['age', 'max_lesion_diameter'])
 
-    with pytest.raises(MissingColumnsError) as excinfo:
+    with pytest.raises(MissingVariableError) as excinfo:
         adnex.predict_risks(input_data)
 
-    assert 'missing required columns' in str(excinfo.value), 'MissingColumnsError not raised for missing columns.'
+    assert 'missing required variables' in str(excinfo.value), 'MissingVariableError not raised for missing variables.'
 
 
 def test_adnex_model_invalid_age_type(sample_input):

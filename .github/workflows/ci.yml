@@ -10,44 +10,73 @@ jobs:
   build:
     runs-on: ${{ matrix.os }}
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         python-version: ['3.13', '3.12', '3.11', '3.10', '3.9', '3.8']
-    steps:
-      - uses: actions/checkout@v3
 
-      - name: Set up Python
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
 
       - name: Cache pip
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/*requirements*.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-          pip install pytest pytest-cov pre-commit pylint
+          pip install --upgrade pip
+          pip install -r requirements-dev.txt
 
+      # Run tests without coverage on all Python versions and OS combinations except Python 3.13 + ubuntu.
+      - name: Run tests without coverage
+        if: ${{ matrix.python-version != '3.13' || matrix.os != 'ubuntu-latest' }}
+        run: |
+          pytest
+
+      #  Run pre-commit only on Python 3.13 + ubuntu.
       - name: Run pre-commit hooks
-      # Run pre-commit only for one Python version and one OS to avoid running it multiple times
         if: ${{ matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest' }}
         run: |
           SKIP=no-commit-to-branch pre-commit run --all-files
 
+      # Run pylint only on Python 3.13 + ubuntu.
       - name: Run pylint
-      # Run pre-commit only for one Python version and one OS to avoid running it multiple times
         if: ${{ matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest' }}
         run: |
           pylint src/
 
+      # Run tests (with coverage on Python 3.13 + ubuntu).
       - name: Run tests
         run: |
-          pytest
+          if [[ "${{ matrix.python-version }}" == "3.13" && "${{ matrix.os }}" == "ubuntu-latest" ]]; then
+            pytest --cov=src --cov-report=xml --cov-report=term
+          else
+            pytest
+          fi
+        shell: bash
+
+      # Upload coverage report only on Python 3.13 + ubuntu.
+      - name: Upload coverage artifact
+        if: ${{ matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage.xml
+
+      # Upload to Codecov only on Python 3.13 + ubuntu.
+      - name: Upload coverage report to Codecov
+        if: ${{ matrix.python-version == '3.13' && matrix.os == 'ubuntu-latest' }}
+        uses: codecov/codecov-action@v5
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          fail_ci_if_error: true

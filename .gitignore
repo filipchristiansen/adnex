@@ -18,9 +18,6 @@
 # Testing
 .pytest_cache
 
-# Distribution directories
-dist/
-
 # Build artifacts
 build/
 dist/

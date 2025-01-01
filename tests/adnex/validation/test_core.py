@@ -4,9 +4,9 @@ import re
 
 import pytest
 
-from adnex.exceptions import MissingColumnsError, ValidationError
 from adnex.validation.core import validate_input
 from adnex.validation.variables import MAX_AGE, MIN_AGE
+from utils.exceptions import MissingVariableError, ValidationError
 
 
 def test_validate_input_valid(sample_input):
@@ -18,7 +18,7 @@ def test_validate_input_missing_cols(sample_input):
     var_name = 'age'
     invalid_input = sample_input.drop(var_name)
 
-    with pytest.raises(MissingColumnsError, match=f"The input row is missing required columns: '{var_name}'."):
+    with pytest.raises(MissingVariableError, match=f"The input row is missing required variables: '{var_name}'."):
         validate_input(invalid_input)
 
 
@@ -102,8 +102,8 @@ def test_validate_and_missing_cols(sample_input):
     invalid_input = sample_input.drop(['age', 'max_lesion_diameter'])
 
     with pytest.raises(
-        MissingColumnsError,
-        match="The input row is missing required columns: {'age', 'max_lesion_diameter'}.",
+        MissingVariableError,
+        match="The input row is missing required variables: {'age', 'max_lesion_diameter'}.",
     ):
         validate_input(invalid_input)
 

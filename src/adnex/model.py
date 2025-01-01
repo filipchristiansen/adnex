@@ -1,13 +1,14 @@
-""" This module contains the main function to apply the ADNEX model to a single patient data row. """
+""" This module contains the main function to apply the ADNEX model to a patient data row. """
 
 import pandas as pd
 
 from adnex.computation import compute_probabilities
-from adnex.exceptions import ADNEXModelError, MissingColumnsError, ValidationError
+from adnex.exceptions import ADNEXModelError
 from adnex.transformation import transform_input_variables
 from adnex.validation.core import validate_input
 from adnex.validation.utils import has_ca125
 from adnex.variables import ADNEX_MODEL_VARIABLES
+from utils.exceptions import MissingVariableError, ValidationError
 
 
 def predict_risks(row: pd.Series) -> pd.Series:
@@ -21,8 +22,8 @@ def predict_risks(row: pd.Series) -> pd.Series:
 
     Raises
     ------
-    MissingColumnsError
-        If required columns are missing or input validation
+    MissingVariableError
+        If required columns are missing.
     ValidationError
         If input validation fails.
     ADNEXModelError
@@ -51,12 +52,10 @@ def predict_risks(row: pd.Series) -> pd.Series:
         # Transform the input variables
         transformed_vars = transform_input_variables(filtered_row)
 
-        # Compute probabilities
-        probabilities = compute_probabilities(transformed_vars, with_ca125)
+        # Compute the probabilities
+        return compute_probabilities(transformed_vars, with_ca125=with_ca125)
 
-        return probabilities
-
-    except (MissingColumnsError, ValidationError):
+    except (MissingVariableError, ValidationError):
         raise  # Re-raise the same exception to preserve specificity
 
     except Exception as e:
