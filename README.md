@@ -1,8 +1,6 @@
 # Assessment of Different NEoplasias in the adneXa(ADNEX) model
 
-<a href="https://github.com/psf/black/actions"><img alt="Actions Status" src="https://github.com/psf/black/workflows/Test/badge.svg"></a>
-<a href="https://coveralls.io/github/psf/black?branch=main"><img alt="Coverage Status" src="https://s3.amazonaws.com/assets.coveralls.io/badges/coveralls_100.svg"></a>
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## Table of Contents
 
@@ -13,7 +11,13 @@
   - [Installation](#installation)
   - [Usage](#usage)
   - [References](#references)
+    - [ADNEX model](#adnex-model)
+    - [Simple Rules model](#simple-rules-model)
+    - [Simple Rules Risk model](#simple-rules-risk-model)
   - [Contributing](#contributing)
+    - [Open an Issue on GitHub to report a bug](#open-an-issue-on-github-to-report-a-bug)
+    - [Open an Issue on GitHub to request a new feature](#open-an-issue-on-github-to-request-a-new-feature)
+    - [Create a Pull Request on GitHub to contribute code](#create-a-pull-request-on-github-to-contribute-code)
   - [License](#license)
   - [Contact](#contact)
 
@@ -172,12 +176,40 @@ Name: predicted_risk, dtype: float64
 
 ## References
 
+### ADNEX model
+
 - [Van Calster B, et al. *BMJ* (2014)](https://doi.org/10.1136/bmj.g5920)
 - [Landolfo C, et al. *Ultrasound Obstet Gynecol* (2022)](https://doi.org/10.1002/uog.26080)
 
+### Simple Rules model
+
+- [Timmerman, D. et al. *Ultrasound Obstet Gynecol* (2008)](https://doi.org/10.1002/uog.5365)
+
+### Simple Rules Risk model
+
+- [Timmerman, D. et al. *Am J Obstet Gynecol* (2016)](https://doi.org/10.1016/j.ajog.2016.01.007)
+
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.
+Contributions are welcome! Here are a few ways you can help:
+
+### Open an Issue on GitHub to report a bug
+
+- Please provide a detailed description of the bug, including the steps to reproduce it.
+- If possible, provide a minimal code example that reproduces the bug.
+- If you have a suggestion for how to fix the bug, please include that as well.
+
+### Open an Issue on GitHub to request a new feature
+
+- Please provide a detailed description of the feature you would like to see.
+- If possible, provide a use case for the feature and any relevant examples.
+
+### Create a Pull Request on GitHub to contribute code
+
+1. Fork the repository.
+2. Make your changes, add and run tests, and update the documentation if relevant.
+3. Open a Pull Request with a detailed description of your changes.
+4. Your Pull Request will be reviewed by the maintainers, and you may be asked to make changes before it is accepted.
 
 ## License
 

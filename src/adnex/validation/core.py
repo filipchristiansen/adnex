@@ -2,7 +2,6 @@
 
 import pandas as pd
 
-from adnex.exceptions import MissingColumnsError, ValidationError
 from adnex.validation.variables import (
     _validate_age,
     _validate_binary_predictors,
@@ -12,6 +11,7 @@ from adnex.validation.variables import (
     _validate_s_ca_125,
 )
 from adnex.variables import REQUIRED_VARIABLES
+from utils.exceptions import MissingVariableError, ValidationError
 
 
 def validate_input(row: pd.Series) -> None:
@@ -32,7 +32,7 @@ def validate_input(row: pd.Series) -> None:
 
     Raises
     ------
-    MissingColumnsError
+    MissingVariableError
         If required columns are missing.
     ValidationError
         If input validation fails.
@@ -40,7 +40,7 @@ def validate_input(row: pd.Series) -> None:
 
     missing_columns = REQUIRED_VARIABLES - set(row.index)
     if missing_columns:
-        raise MissingColumnsError(missing_columns)
+        raise MissingVariableError(missing_columns)
 
     # Check for missing values
     if row.isna().any():

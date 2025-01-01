@@ -1,4 +1,4 @@
-""" Module for computing probabilities using the ADNEX model. """
+""" Module for computing probabilities of different types of neoplasias using the ADNEX model. """
 
 import numpy as np
 import pandas as pd

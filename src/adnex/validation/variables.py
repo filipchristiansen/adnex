@@ -5,15 +5,15 @@ import typing
 import pandas as pd
 
 from adnex.constraints import MAX_AGE, MAX_CA_125, MAXIMAL_LESION_DIAMETER, MIN_AGE, VALID_PAPILLARY_PROJECTIONS
-from adnex.exceptions import ValidationError
-from adnex.validation.asserts import (
+from utils.asserts import (
     _ensure_binary,
     _ensure_in_range,
     _ensure_integer,
+    _ensure_less_than_or_equal_to_max,
     _ensure_non_negative,
-    _ensure_upper_bounded,
 )
-from adnex.validation.utils import _is_less_than_or_equal_to_max
+from utils.exceptions import ValidationError
+from utils.validation import _is_less_than_or_equal_to_max
 
 
 def _validate_age(age: object) -> None:
@@ -29,7 +29,7 @@ def _validate_max_lesion_diameter(max_lesion_diameter: object) -> None:
     _ensure_integer(max_lesion_diameter, var_name=var_name)
     max_lesion_diameter = int(typing.cast(int, max_lesion_diameter))
     _ensure_non_negative(max_lesion_diameter, var_name=var_name)
-    _ensure_upper_bounded(max_lesion_diameter, max_value=MAXIMAL_LESION_DIAMETER, var_name=var_name)
+    _ensure_less_than_or_equal_to_max(max_lesion_diameter, max_value=MAXIMAL_LESION_DIAMETER, var_name=var_name)
 
 
 def _validate_max_solid_component(max_solid_component: object, max_lesion_diameter: int) -> None:
@@ -49,7 +49,7 @@ def _validate_s_ca_125(s_ca_125: object) -> None:
     _ensure_integer(s_ca_125, var_name=var_name)
     s_ca_125 = int(typing.cast(int, s_ca_125))
     _ensure_non_negative(s_ca_125, var_name=var_name)
-    _ensure_upper_bounded(s_ca_125, max_value=MAX_CA_125, var_name=var_name)
+    _ensure_less_than_or_equal_to_max(s_ca_125, max_value=MAX_CA_125, var_name=var_name)
 
 
 def _validate_number_of_papillary_projections(number_of_papillary_projections: object) -> None:
