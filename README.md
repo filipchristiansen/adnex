@@ -1,6 +1,10 @@
 # Assessment of Different NEoplasias in the adneXa(ADNEX) model
 
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![CI Status](https://github.com/filipchristiansen/adnex/actions/workflows/ci.yml/badge.svg)](https://github.com/filipchristiansen/adnex/actions/workflows/ci.yml)
+[![Code Coverage](https://codecov.io/gh/filipchristiansen/adnex/graph/badge.svg?token=kUQsPQBVL3)](https://codecov.io/gh/filipchristiansen/adnex)
+[![PyPI version](https://badge.fury.io/py/adnex.svg)](https://badge.fury.io/py/adnex)
 
 ## Table of Contents
 
